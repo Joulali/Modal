@@ -1,12 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { ModalService } from './modal/modal.service';
+import { ModalComponent } from './modal/modal.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [ModalComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'modal';
+  private modalService = inject(ModalService);
+
+  openModal(modal_id: string): void {
+    this.modalService.open(modal_id);
+  }
+
+  closeModal(id: string): void {
+    this.modalService.close(id);
+  }
 }
