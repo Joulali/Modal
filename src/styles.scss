@@ -1,12 +1,16 @@
 /* =========================================================
    RESET & GLOBALS
 ========================================================= */
+
+/* Box sizing reset */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
+/* Hide modal component wrapper by default
+   (modal is appended to body dynamically) */
 app-modal {
   display: none;
 }
@@ -14,34 +18,45 @@ app-modal {
 /* =========================================================
    VARIABLES
 ========================================================= */
+
+/* Z-index layers */
 $z-modal: 1000;
 $z-overlay: 900;
 
-$radius-default: 8px;
-$shadow-default: 0 10px 40px rgba(0, 0, 0, 0.2);
+/* Visual tokens */
+$radius-default: 12px;
+$shadow-default:
+  0 10px 25px rgba(0, 0, 0, 0.15),
+  0 4px 10px rgba(0, 0, 0, 0.08);
 
-$overlay-bg: rgba(0, 0, 0, 0.6);
-$modal-bg: #fff;
+/* Colors */
+$overlay-bg: rgba(17, 24, 39, 0.55);
+$modal-bg: #ffffff;
+$header-bg: #f9fafb;
+$border-color: #e5e7eb;
+$text-primary: #111827;
+$text-muted: #6b7280;
 
+/* Responsive breakpoint */
 $mobile-breakpoint: 576px;
 
 /* =========================================================
    MIXINS
 ========================================================= */
 
-/* Center modal */
+/* Center modal in viewport */
 @mixin modal-center {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-/* Responsive width using clamp */
+/* Responsive width using clamp() */
 @mixin modal-width($min, $preferred, $max) {
   width: clamp($min, $preferred, $max);
 }
 
-/* Full height drawer */
+/* Full-height drawer modal (left / right) */
 @mixin modal-drawer {
   top: 0;
   height: 100vh;
@@ -50,13 +65,13 @@ $mobile-breakpoint: 576px;
   border-radius: 0;
 }
 
-/* Scrollable body */
+/* Scrollable modal body */
 @mixin modal-body-scroll($offset: 60px) {
   overflow-y: auto;
   max-height: calc(90vh - #{$offset});
 }
 
-/* Fullscreen on mobile */
+/* Fullscreen modal on mobile */
 @mixin modal-fullscreen-mobile {
   @media (max-width: $mobile-breakpoint) {
     width: 100vw;
@@ -67,18 +82,23 @@ $mobile-breakpoint: 576px;
 }
 
 /* =========================================================
-   MODAL OVERLAY
+   MODAL OVERLAY (BACKDROP)
 ========================================================= */
+
 .pop-modal-background {
   position: fixed;
   inset: 0;
   background: $overlay-bg;
   z-index: $z-overlay;
+
+  /* Hidden by default */
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease;
+
+  transition: opacity 0.25s ease;
 }
 
+/* Enable backdrop when modal is open */
 .pop-modal-open {
   .pop-modal-background {
     opacity: 1;
@@ -87,8 +107,9 @@ $mobile-breakpoint: 576px;
 }
 
 /* =========================================================
-   BASE MODAL
+   BASE MODAL CONTAINER
 ========================================================= */
+
 .pop-modal {
   position: fixed;
   z-index: $z-modal;
@@ -96,26 +117,102 @@ $mobile-breakpoint: 576px;
   border-radius: $radius-default;
   box-shadow: $shadow-default;
 
+  /* Layout */
+  display: flex;
+  flex-direction: column;
+
+  /* Center by default */
   @include modal-center;
+
+  /* Default width */
   @include modal-width(280px, 80vw, 800px);
 
   max-height: 90vh;
   overflow: hidden;
 
+  /* Mobile behavior */
   @include modal-fullscreen-mobile;
+
+  /* Default animation state */
+  opacity: 0;
+  transform: translate(-50%, -48%);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* Active (visible) modal */
+.pop-modal-open .pop-modal.center {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+
+/* =========================================================
+   MODAL HEADER
+========================================================= */
+
+.pop-modal-header {
+  padding: 16px 20px;
+  background: $header-bg;
+  border-bottom: 1px solid $border-color;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: $text-primary;
+  }
+}
+
+/* Close button */
+.pop-modal-close {
+  border: none;
+  background: transparent;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  color: $text-muted;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $text-primary;
+  }
 }
 
 /* =========================================================
    MODAL BODY
 ========================================================= */
+
 .pop-modal-body {
   padding: 20px;
+  flex: 1;
+  color: #374151;
+  font-size: 14px;
+  line-height: 1.6;
+
   @include modal-body-scroll;
+}
+
+/* =========================================================
+   MODAL FOOTER
+========================================================= */
+
+.pop-modal-footer {
+  padding: 14px 20px;
+  background: $header-bg;
+  border-top: 1px solid $border-color;
+
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 /* =========================================================
    SIZE VARIANTS
 ========================================================= */
+
 .pop-modal.small {
   @include modal-width(260px, 60vw, 400px);
 }
@@ -129,49 +226,68 @@ $mobile-breakpoint: 576px;
 }
 
 /* =========================================================
-   DRAWERS (LEFT / RIGHT)
+   DRAWER MODALS (LEFT / RIGHT)
 ========================================================= */
+
 .pop-modal.left,
 .pop-modal.right {
   @include modal-drawer;
   @include modal-width(280px, 80vw, 480px);
+
+  display: flex;
+  flex-direction: column;
 }
 
+/* Left drawer */
 .pop-modal.left {
   left: 0;
-}
-
-.pop-modal.right {
-  right: 0;
-  left: auto;
-}
-
-/* =========================================================
-   OPTIONAL ANIMATIONS (SAFE DEFAULTS)
-========================================================= */
-.pop-modal {
-  opacity: 0;
-  transform: translate(-50%, -48%);
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-.pop-modal-open .pop-modal {
-  opacity: 1;
-  transform: translate(-50%, -50%);
-}
-
-/* Drawer animations */
-.pop-modal.left {
+  border-radius: 0 12px 12px 0;
   transform: translateX(-100%);
 }
 
+/* Right drawer */
 .pop-modal.right {
+  right: 0;
+  left: auto;
+  border-radius: 12px 0 0 12px;
   transform: translateX(100%);
 }
 
+/* Drawer active state */
 .pop-modal-open {
   .pop-modal.left,
   .pop-modal.right {
     transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* =========================================================
+   BUTTON UTILITIES (OPTIONAL)
+========================================================= */
+
+.btn {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: #e5e7eb;
+  color: $text-primary;
+
+  &:hover {
+    background: #d1d5db;
+  }
+}
+
+.btn-danger {
+  background: #dc2626;
+  color: #ffffff;
+
+  &:hover {
+    background: #b91c1c;
   }
 }

@@ -1,5 +1,5 @@
 <!-- Popup Modal -->
-<app-modal id="popup-modal" position="center" size="large">
+<!-- <app-modal id="popup-modal" position="center" size="large">
   <button
     type="button"
     class="btn btn-secondary"
@@ -7,6 +7,30 @@
   >
     Cancel
   </button>
+</app-modal> -->
+
+<!-- <app-modal id="popup-modal" position="center" size="large" title="User details">
+  <p>User content here</p>
+</app-modal> -->
+
+<app-modal
+  id="popup-modal"
+  position="center"
+  size="large"
+  [showFooter]="true"
+  [closeOnBackdropClick]="false"
+>
+  <ng-template #modalHeader>
+    <h2>Confirm action</h2>
+  </ng-template>
+
+  <p>Are you sure you want to continue?</p>
+
+  <ng-template #modalFooter>
+    <button class="btn btn-secondary" (click)="closeModal('popup-modal')">
+      Cancel
+    </button>
+  </ng-template>
 </app-modal>
 
 <!-- Side Left Modal -->

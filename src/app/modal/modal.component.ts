@@ -5,6 +5,8 @@ import {
   OnInit,
   OnDestroy,
   inject,
+  TemplateRef,
+  ContentChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AnimationEvent } from '@angular/animations';
@@ -25,15 +27,50 @@ import { BACKDROP_ANIMATION, MODAL_ANIMATION } from './modal.animations';
       }"
       (@modalAnimation.done)="onAnimationDone($event)"
     >
+      <!-- Header -->
+      <ng-container *ngIf="headerTemplate; else defaultHeader">
+        <div class="pop-modal-header">
+          <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
+        </div>
+      </ng-container>
+
+      <ng-template #defaultHeader>
+        <div class="pop-modal-header" *ngIf="title || showCloseButton">
+          <h3>{{ title }}</h3>
+          <button
+            *ngIf="showCloseButton"
+            class="pop-modal-close"
+            (click)="close()"
+          >
+            &times;
+          </button>
+        </div>
+      </ng-template>
+
+      <!-- Body -->
       <div class="pop-modal-body">
         <ng-content></ng-content>
       </div>
+
+      <!-- Footer -->
+      <ng-container *ngIf="footerTemplate; else defaultFooter">
+        <div class="pop-modal-footer">
+          <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
+        </div>
+      </ng-container>
+
+      <ng-template #defaultFooter>
+        <div class="pop-modal-footer" *ngIf="showFooter">
+          <button class="btn btn-secondary" (click)="close()">Close</button>
+        </div>
+      </ng-template>
     </div>
 
+    <!-- Backdrop -->
     <div
       class="pop-modal-background"
       [@backdropAnimation]="state"
-      (click)="close()"
+      (click)="closeOnBackdropClick ? close() : null"
     ></div>
   `,
   animations: [MODAL_ANIMATION, BACKDROP_ANIMATION],
@@ -42,6 +79,14 @@ export class ModalComponent implements OnInit, OnDestroy {
   @Input({ required: true }) id!: string;
   @Input() size: 'small' | 'large' | 'extra-large' = 'large';
   @Input() position: 'center' | 'left' | 'right' = 'center';
+
+  @Input() title?: string;
+  @Input() showCloseButton = true;
+  @Input() showFooter = false;
+  @Input() closeOnBackdropClick = true;
+
+  @ContentChild('modalHeader') headerTemplate?: TemplateRef<any>;
+  @ContentChild('modalFooter') footerTemplate?: TemplateRef<any>;
 
   state: 'show' | 'hide' = 'hide';
   private isClosing = false;
