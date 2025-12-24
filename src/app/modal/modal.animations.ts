@@ -1,4 +1,10 @@
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 
 export const MODAL_ANIMATION = trigger('modalAnimation', [
   state(
