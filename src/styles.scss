@@ -1,3 +1,6 @@
+/* =========================================================
+   RESET & GLOBALS
+========================================================= */
 *,
 *::before,
 *::after {
@@ -8,97 +11,167 @@ app-modal {
   display: none;
 }
 
-.pop-modal {
-  position: fixed;
+/* =========================================================
+   VARIABLES
+========================================================= */
+$z-modal: 1000;
+$z-overlay: 900;
+
+$radius-default: 8px;
+$shadow-default: 0 10px 40px rgba(0, 0, 0, 0.2);
+
+$overlay-bg: rgba(0, 0, 0, 0.6);
+$modal-bg: #fff;
+
+$mobile-breakpoint: 576px;
+
+/* =========================================================
+   MIXINS
+========================================================= */
+
+/* Center modal */
+@mixin modal-center {
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(1.1);
-  z-index: 1000;
-  min-height: 200px;
-  // overflow: auto;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translate(-50%, -50%);
 }
 
-.pop-modal.left {
+/* Responsive width using clamp */
+@mixin modal-width($min, $preferred, $max) {
+  width: clamp($min, $preferred, $max);
+}
+
+/* Full height drawer */
+@mixin modal-drawer {
   top: 0;
-  left: 0;
   height: 100vh;
+  max-height: 100vh;
   transform: none;
   border-radius: 0;
-   width: 75vw;
-  max-width: 75vw;
 }
 
-.pop-modal.right {
-  top: 0;
-  right: 0;
-  left: auto;
-  height: 100vh;
-  width: 75vw;
-  max-width: 75vw;
-  border-radius: 0;
+/* Scrollable body */
+@mixin modal-body-scroll($offset: 60px) {
+  overflow-y: auto;
+  max-height: calc(90vh - #{$offset});
 }
 
+/* Fullscreen on mobile */
+@mixin modal-fullscreen-mobile {
+  @media (max-width: $mobile-breakpoint) {
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+}
+
+/* =========================================================
+   MODAL OVERLAY
+========================================================= */
 .pop-modal-background {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: $overlay-bg;
+  z-index: $z-overlay;
   opacity: 0;
-  z-index: 900;
   pointer-events: none;
+  transition: opacity 0.2s ease;
 }
 
-.pop-modal-open .pop-modal-background {
-  pointer-events: auto;
+.pop-modal-open {
+  .pop-modal-background {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 
-.pop-modal .pop-modal-body {
+/* =========================================================
+   BASE MODAL
+========================================================= */
+.pop-modal {
+  position: fixed;
+  z-index: $z-modal;
+  background: $modal-bg;
+  border-radius: $radius-default;
+  box-shadow: $shadow-default;
+
+  @include modal-center;
+  @include modal-width(280px, 80vw, 800px);
+
+  max-height: 90vh;
+  overflow: hidden;
+
+  @include modal-fullscreen-mobile;
+}
+
+/* =========================================================
+   MODAL BODY
+========================================================= */
+.pop-modal-body {
   padding: 20px;
+  @include modal-body-scroll;
 }
 
+/* =========================================================
+   SIZE VARIANTS
+========================================================= */
 .pop-modal.small {
-  width: 80%;
-  max-width: 400px;
+  @include modal-width(260px, 60vw, 400px);
 }
 
 .pop-modal.large {
-  width: 70%;
-  max-width: 800px;
+  @include modal-width(320px, 85vw, 900px);
 }
 
 .pop-modal.extra-large {
-  width: 60%;
-  max-width: 1200px;
+  @include modal-width(360px, 95vw, 1200px);
 }
 
-@media screen and (max-width: 768px) {
-  .pop-modal.small {
-    width: 90%;
-    max-width: 500px;
-  }
-  .pop-modal.large {
-    width: 80%;
-    max-width: 900px;
-    .pop-modal.extra-large {
-      width: 70%;
-      max-width: 1100px;
-    }
-  }
+/* =========================================================
+   DRAWERS (LEFT / RIGHT)
+========================================================= */
+.pop-modal.left,
+.pop-modal.right {
+  @include modal-drawer;
+  @include modal-width(280px, 80vw, 480px);
+}
 
-  @media screen and (max-width: 576px) {
-    .pop-modal.small {
-      width: 95%;
-      max-width: 600px;
-    }
-    .pop-modal.large {
-      width: 90%;
-      max-width: 1000px;
-    }
-    .pop-modal.extra-large {
-      width: 85%;
-      max-width: 1300px;
-    }
+.pop-modal.left {
+  left: 0;
+}
+
+.pop-modal.right {
+  right: 0;
+  left: auto;
+}
+
+/* =========================================================
+   OPTIONAL ANIMATIONS (SAFE DEFAULTS)
+========================================================= */
+.pop-modal {
+  opacity: 0;
+  transform: translate(-50%, -48%);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.pop-modal-open .pop-modal {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+
+/* Drawer animations */
+.pop-modal.left {
+  transform: translateX(-100%);
+}
+
+.pop-modal.right {
+  transform: translateX(100%);
+}
+
+.pop-modal-open {
+  .pop-modal.left,
+  .pop-modal.right {
+    transform: translateX(0);
   }
 }
