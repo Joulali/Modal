@@ -18,25 +18,47 @@ import { BACKDROP_ANIMATION, MODAL_ANIMATION } from './modal.animations';
   imports: [CommonModule],
   template: `
     <div
-      class="pop-modal {{ size }}"
-      [@modalAnimation]="state"
+      class="pop-modal {{ size }} {{ position }}"
+      [@modalAnimation]="{
+        value: state,
+        params: animationParams
+      }"
       (@modalAnimation.done)="onAnimationDone($event)"
     >
       <div class="pop-modal-body">
-        <ng-content />
+        <ng-content></ng-content>
       </div>
     </div>
 
-    <div class="pop-modal-background" [@backdropAnimation]="state"></div>
+    <div
+      class="pop-modal-background"
+      [@backdropAnimation]="state"
+      (click)="close()"
+    ></div>
   `,
   animations: [MODAL_ANIMATION, BACKDROP_ANIMATION],
 })
 export class ModalComponent implements OnInit, OnDestroy {
   @Input({ required: true }) id!: string;
   @Input() size: 'small' | 'large' | 'extra-large' = 'large';
+  @Input() position: 'center' | 'left' | 'right' = 'center';
 
   state: 'show' | 'hide' = 'hide';
   private isClosing = false;
+  private readonly ANIMATION_PARAMS = {
+    left: {
+      hideTransform: 'translateX(-100%)',
+      showTransform: 'translateX(0)',
+    },
+    right: {
+      hideTransform: 'translateX(100%)',
+      showTransform: 'translateX(0)',
+    },
+    center: {
+      hideTransform: 'translate(-50%, -50%) scale(0.9)',
+      showTransform: 'translate(-50%, -50%) scale(1)',
+    },
+  } as const;
 
   private modalService = inject(ModalService);
   private el = inject(ElementRef<HTMLElement>);
@@ -82,5 +104,13 @@ export class ModalComponent implements OnInit, OnDestroy {
       this.element.style.display = 'none';
       this.isClosing = false;
     }
+  }
+
+  get animationParams() {
+    return (
+      this.ANIMATION_PARAMS[
+        this.position as keyof typeof this.ANIMATION_PARAMS
+      ] ?? this.ANIMATION_PARAMS.center
+    );
   }
 }
