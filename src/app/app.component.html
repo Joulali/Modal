@@ -1,63 +1,12 @@
-<!-- Popup Modal -->
-<!-- <app-modal id="popup-modal" position="center" size="large">
-  <button
-    type="button"
-    class="btn btn-secondary"
-    (click)="closeModal('popup-modal')"
-  >
-    Cancel
-  </button>
-</app-modal> -->
 
-<!-- <app-modal id="popup-modal" position="center" size="large" title="User details">
-  <p>User content here</p>
-</app-modal> -->
 
-<app-modal
-  id="popup-modal"
-  position="center"
-  size="large"
-  [showFooter]="true"
-  [closeOnBackdropClick]="false"
->
-  <ng-template #modalHeader>
-    <h2>Confirm action</h2>
-  </ng-template>
+<div class="container">
+  <app-sidebar></app-sidebar>
 
-  <p>Are you sure you want to continue?</p>
-
-  <ng-template #modalFooter>
-    <button class="btn btn-secondary" (click)="closeModal('popup-modal')">
-      Cancel
-    </button>
-  </ng-template>
-</app-modal>
-
-<!-- Side Left Modal -->
-<app-modal id="sidebar-left" position="left" size="small">
-  <button
-    type="button"
-    class="btn btn-secondary"
-    (click)="closeModal('sidebar-left')"
-  >
-    Cancel
-  </button>
-</app-modal>
-
-<!-- Side Right Modal -->
-<app-modal id="sidebar-right" position="right" size="large">
-  <button
-    type="button"
-    class="btn btn-secondary"
-    (click)="closeModal('sidebar-right')"
-  >
-    Cancel
-  </button>
-</app-modal>
-
-<h1>Modal</h1>
-
-<button (click)="openModal('popup-modal')">popup</button>
-<button (click)="openModal('sidebar-left')">side-left</button>
-<button (click)="openModal('sidebar-right')">side-right</button>
-<button (click)="toggleTheme()">Toggle theme</button>
+  <main class="main-content" [class.expanded]="isSidebarCollapsed">
+    <app-navbar (toggleSidebar)="toggleMobileSidebar()"></app-navbar>
+    <div class="main-content-body">
+      <app-main-content></app-main-content>
+    </div>
+  </main>
+</div>

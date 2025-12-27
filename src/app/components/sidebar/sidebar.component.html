@@ -1,0 +1,92 @@
+<aside
+  class="sidebar"
+  [class.collapsed]="isCollapsed"
+  [class.mobile-open]="isMobileOpen"
+>
+  <div class="sidebar-header">
+    <div class="logo">
+      <div class="logo-icon">
+        <i class="fas fa-cube"></i>
+      </div>
+      <div class="logo-text" [hidden]="isCollapsed">Dashboard</div>
+    </div>
+    <button class="collapse-btn" (click)="toggleCollapse()">
+      <i
+        class="fas"
+        [class.fa-chevron-right]="isCollapsed"
+        [class.fa-chevron-left]="!isCollapsed"
+      ></i>
+    </button>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a
+      href="#"
+      class="nav-item"
+      [class.active]="activeItem === 'dashboard'"
+      (click)="setActiveItem('dashboard')"
+    >
+      <div class="nav-icon">
+        <i class="fas fa-tachometer-alt"></i>
+      </div>
+      <div class="nav-text" [hidden]="isCollapsed">Dashboard</div>
+    </a>
+    <a
+      href="#"
+      class="nav-item"
+      [class.active]="activeItem === 'profile'"
+      (click)="setActiveItem('profile')"
+    >
+      <div class="nav-icon">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="nav-text" [hidden]="isCollapsed">Profile</div>
+    </a>
+    <a
+      href="#"
+      class="nav-item"
+      [class.active]="activeItem === 'forms'"
+      (click)="setActiveItem('forms')"
+    >
+      <div class="nav-icon">
+        <i class="fas fa-file-alt"></i>
+      </div>
+      <div class="nav-text" [hidden]="isCollapsed">Forms</div>
+    </a>
+    <a
+      href="#"
+      class="nav-item"
+      [class.active]="activeItem === 'analytics'"
+      (click)="setActiveItem('analytics')"
+    >
+      <div class="nav-icon">
+        <i class="fas fa-chart-bar"></i>
+      </div>
+      <div class="nav-text" [hidden]="isCollapsed">Analytics</div>
+    </a>
+    <a
+      href="#"
+      class="nav-item"
+      [class.active]="activeItem === 'settings'"
+      (click)="setActiveItem('settings')"
+    >
+      <div class="nav-icon">
+        <i class="fas fa-cog"></i>
+      </div>
+      <div class="nav-text" [hidden]="isCollapsed">Settings</div>
+    </a>
+  </nav>
+
+  <div class="toggle-container" [hidden]="isCollapsed">
+    <label class="toggle-label">
+      <span>Collapse Sidebar</span>
+      <input
+        type="checkbox"
+        id="sidebar-toggle"
+        [checked]="isCollapsed"
+        (change)="toggleCollapse()"
+      />
+      <div class="toggle-switch"></div>
+    </label>
+  </div>
+</aside>

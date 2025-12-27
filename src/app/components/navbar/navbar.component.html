@@ -1,0 +1,34 @@
+<header class="navbar">
+  <div class="navbar-left">
+    <button class="mobile-menu-btn" (click)="toggleMobileMenu()">
+      <i class="fas fa-bars"></i>
+    </button>
+    <h1 class="page-title">Breadcrumb</h1>
+  </div>
+
+  <div class="navbar-right">
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input
+        #searchInput
+        type="text"
+        placeholder="Search..."
+        [value]="searchQuery"
+        (input)="searchQuery = searchInput.value; onSearch()"
+      />
+    </div>
+    <div class="notification" (click)="toggleNotifications()">
+      <i class="fas fa-bell"></i>
+      <span class="notification-badge">3</span>
+    </div>
+    <div class="user-profile">
+      <div class="user-avatar">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="user-info">
+        <span class="user-name">John Doe</span>
+        <span class="user-role">Administrator</span>
+      </div>
+    </div>
+  </div>
+</header>

@@ -1,17 +1,56 @@
+// :root[data-theme="dark"] {
+//   --primary-color: #7986cb;
+//   --secondary-color: #ff80ab;
+//   --background-color: #121212;
+//   --surface-color: #1e1e1e;
+//   --text-color: #e0e0e0;
+//   --text-secondary: #aaaaaa;
+//   --border-color: #333333;
+//   --shadow-color: rgba(0, 0, 0, 0.3);
+//   --button-bg: #2a2a2a;
+//   --button-color: #e0e0e0;
+//   --fab-bg: #2a2a2a;
+//   --fab-color: #e0e0e0;
+//   --nav-bg: #1e1e1e;
+//   --footer-bg: #1e1e1e;
+//   --card-bg: #1e1e1e;
+// }
+
 :root[data-theme="dark"] {
-  --primary-color: #7986cb;
-  --secondary-color: #ff80ab;
-  --background-color: #121212;
-  --surface-color: #1e1e1e;
-  --text-color: #e0e0e0;
-  --text-secondary: #aaaaaa;
-  --border-color: #333333;
-  --shadow-color: rgba(0, 0, 0, 0.3);
-  --button-bg: #2a2a2a;
-  --button-color: #e0e0e0;
-  --fab-bg: #2a2a2a;
-  --fab-color: #e0e0e0;
-  --nav-bg: #1e1e1e;
-  --footer-bg: #1e1e1e;
-  --card-bg: #1e1e1e;
+  /* Backgrounds */
+  --background-color: #0f172a; // main app bg (slate-900)
+  --surface-color: #020617; // sections / layout
+  --card-bg: #020617; // cards
+  --nav-bg: #020617;
+  --footer-bg: #020617;
+
+  /* Text */
+  --text-color: #e5e7eb; // primary text
+  --text-secondary: #9ca3af; // muted text
+
+  /* Brand */
+  --primary-color: #6366f1; // indigo-500 (brighter for dark)
+  --primary-light: #312e81; // indigo-900
+  --secondary-color: #34d399; // emerald-400
+
+  /* UI */
+  --button-bg: #1e293b; // slate-800
+  --button-color: #e5e7eb;
+  --fab-bg: #1e293b;
+  --fab-color: #e5e7eb;
+
+  /* Borders & shadows */
+  --border-color: #1e293b;
+  --shadow-color: rgba(0, 0, 0, 0.6);
+
+  /* Neutral */
+  --dark-color: #020617;
+  --light-color: #f9fafb;
+  --gray-color: #6b7280;
+
+  /* Layout (same as default) */
+  --sidebar-width: 250px;
+  --sidebar-collapsed-width: 70px;
+  --navbar-height: 70px;
+  --transition-speed: 0.3s;
 }
