@@ -8,13 +8,13 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 30px;
+  padding: 24px;
   background-color: var(--background-color);
   color: var(--text-color);
   // min-height: calc(100vh - var(--navbar-height));
   min-height: 100%; /* Changed from calc(100vh - navbar-height) */
   overflow-y: auto;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
 }
 
 .content-header {
@@ -26,13 +26,13 @@
   font-weight: 700;
   color: var(--text-color);
   margin-bottom: 10px;
-  transition: color 0.3s ease;
+  transition: color var(--transition-speed) ease;
 }
 
 .content-subtitle {
   color: var(--text-secondary);
   font-size: 1rem;
-  transition: color 0.3s ease;
+  transition: color var(--transition-speed) ease;
 }
 
 /* Card */
@@ -42,8 +42,8 @@
   padding: 30px;
   box-shadow: 0 4px 12px var(--shadow-color);
   margin-bottom: 30px;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease,
-    border-color 0.3s ease;
+  transition: background-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease,
+    border-color var(--transition-speed) ease;
 }
 
 /* Form Styles */
@@ -59,7 +59,7 @@
   margin-bottom: 25px;
   padding-bottom: 15px;
   border-bottom: 1px solid var(--border-color);
-  transition: color 0.3s ease, border-color 0.3s ease;
+  transition: color var(--transition-speed) ease, border-color var(--transition-speed) ease;
 }
 
 .form-group {
@@ -82,7 +82,7 @@
   margin-bottom: 8px;
   font-weight: 500;
   color: var(--text-color);
-  transition: color 0.3s ease;
+  transition: color var(--transition-speed) ease;
 }
 
 .required::after {
@@ -99,12 +99,12 @@
   font-size: 1rem;
   background-color: var(--surface-color);
   color: var(--text-color);
-  transition: border 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease,
-    color 0.3s ease, border-color 0.3s ease;
+  transition: border 0.2s ease, box-shadow 0.2s ease, background-color var(--transition-speed) ease,
+    color var(--transition-speed) ease, border-color var(--transition-speed) ease;
 
   &::placeholder {
     color: var(--text-secondary);
-    transition: color 0.3s ease;
+    transition: color var(--transition-speed) ease;
   }
 
   &:focus {
@@ -137,12 +137,12 @@ textarea.form-control {
     width: 18px;
     height: 18px;
     accent-color: var(--primary-color);
-    transition: accent-color 0.3s ease;
+    transition: accent-color var(--transition-speed) ease;
   }
 
   label {
     color: var(--text-color);
-    transition: color 0.3s ease;
+    transition: color var(--transition-speed) ease;
   }
 }
 
@@ -154,7 +154,7 @@ textarea.form-control {
   margin-top: 40px;
   padding-top: 25px;
   border-top: 1px solid var(--border-color);
-  transition: border-color 0.3s ease;
+  transition: border-color var(--transition-speed) ease;
 }
 
 /* Buttons */
@@ -164,13 +164,13 @@ textarea.form-control {
   font-weight: 500;
   font-size: 1rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--transition-speed) ease;
   border: none;
 
   &-primary {
     background-color: var(--primary-color);
     color: #ffffff;
-    transition: background-color 0.3s ease, color 0.3s ease, filter 0.3s ease;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, filter var(--transition-speed) ease;
 
     &:hover {
       filter: brightness(1.1);
@@ -181,8 +181,8 @@ textarea.form-control {
     background-color: var(--surface-color);
     color: var(--text-color);
     border: 1px solid var(--border-color);
-    transition: background-color 0.3s ease, color 0.3s ease,
-      border-color 0.3s ease;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease,
+      border-color var(--transition-speed) ease;
 
     &:hover {
       background-color: var(--light-color);
