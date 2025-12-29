@@ -34,7 +34,8 @@ body {
     Ubuntu, sans-serif;
   background-color: var(--background-color);
   color: var(--text-color);
-  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+  transition: background-color var(--transition-speed) ease,
+    color var(--transition-speed) ease;
 }
 
 /* Global transitions for theme changes */
@@ -87,9 +88,10 @@ app-modal {
 
 /* Full-height drawer modal (left / right) */
 @mixin modal-drawer {
-  top: 0;
-  height: 100vh;
-  max-height: 100vh;
+  top: 10px; /* Add top margin */
+  bottom: 10px; /* Add bottom margin */
+  height: auto; /* Let top/bottom define height */
+  max-height: calc(100vh - 20px); /* Account for margins */
   transform: none;
   border-radius: 0;
 }
@@ -107,6 +109,8 @@ app-modal {
     height: 100vh;
     max-height: 100vh;
     border-radius: 0;
+    top: 0;
+    bottom: 0;
   }
 }
 
@@ -292,6 +296,9 @@ app-modal {
     width: 100vw !important;
     max-width: 100vw !important;
     border-radius: 0;
+    top: 0;
+    bottom: 0;
+    max-height: 100vh;
   }
 }
 
@@ -302,27 +309,29 @@ app-modal {
 
 /* Left drawer */
 .pop-modal.left {
-  left: 0;
+  left: 10px; /* Left margin */
   right: auto;
   transform: translateX(-100%);
 
   /* Desktop sizes */
   @media (min-width: calc(#{$mobile-breakpoint} + 1px)) {
     @include drawer-sizes;
-    border-radius: 0 $radius-default $radius-default 0;
+    // border-radius: 0 $radius-default $radius-default 0;
+    border-radius: $radius-default;
   }
 }
 
 /* Right drawer */
 .pop-modal.right {
-  right: 0;
+  right: 10px; /* Right margin */
   left: auto;
   transform: translateX(100%);
 
   /* Desktop sizes */
   @media (min-width: calc(#{$mobile-breakpoint} + 1px)) {
     @include drawer-sizes;
-    border-radius: $radius-default 0 0 $radius-default;
+    // border-radius: $radius-default 0 0 $radius-default;
+    border-radius: $radius-default;
   }
 }
 
@@ -430,13 +439,11 @@ app-modal {
 @media (max-width: $mobile-breakpoint) {
   .pop-modal.left,
   .pop-modal.right {
-    transition: transform var(--transition-speed) cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transition: transform var(--transition-speed)
+        cubic-bezier(0.25, 0.46, 0.45, 0.94),
       opacity var(--transition-speed) ease;
   }
 }
-
-/* Theme-specific variables should be defined in your theme CSS files,
-   not in this SCSS file. The variables are already referenced above. */
 
 .container {
   display: flex;
